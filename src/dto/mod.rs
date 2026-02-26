@@ -12,4 +12,6 @@ pub struct OptParams {
     #[serde(rename = "type")]
     pub img_type: Option<String>,
     pub scale: Option<f32>,
+    pub w: Option<u32>,
+    pub h: Option<u32>,
 }

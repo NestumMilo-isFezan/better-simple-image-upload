@@ -47,8 +47,24 @@ impl ImageService {
         let mut img = image::load_from_memory(content)
             .map_err(|e| anyhow::anyhow!(e))?;
 
-        // Handle Scale (numeric or named)
-        if let Some(scale_val) = params.scale {
+        // Handle Width/Height (prioritize over Scale)
+        if params.w.is_some() || params.h.is_some() {
+            let nwidth = params.w.unwrap_or_else(|| {
+                if let Some(h) = params.h {
+                    (img.width() as f32 * (h as f32 / img.height() as f32)) as u32
+                } else {
+                    img.width()
+                }
+            });
+            let nheight = params.h.unwrap_or_else(|| {
+                if let Some(w) = params.w {
+                    (img.height() as f32 * (w as f32 / img.width() as f32)) as u32
+                } else {
+                    img.height()
+                }
+            });
+            img = img.resize(nwidth, nheight, image::imageops::FilterType::Lanczos3);
+        } else if let Some(scale_val) = params.scale {
             let scale = scale_val.clamp(0.1, 2.0);
             let nwidth = (img.width() as f32 * scale) as u32;
             let nheight = (img.height() as f32 * scale) as u32;
