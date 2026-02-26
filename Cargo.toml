@@ -1,0 +1,27 @@
+[package]
+name = "image-service"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+migration = { path = "migration" }
+axum = { version = "0.7.5", features = ["multipart"] }
+tokio = { version = "1.37.0", features = ["full"] }
+sea-orm = { version = "1.1.0", features = ["runtime-tokio-rustls", "sqlx-postgres", "macros"] }
+serde = { version = "1.0.201", features = ["derive"] }
+serde_json = "1.0.117"
+uuid = { version = "1.8.0", features = ["v4", "serde"] }
+image = { version = "0.25.1", features = ["webp", "avif", "jpeg", "png"] }
+tower-http = { version = "0.5.2", features = ["fs", "cors", "trace"] }
+tracing = "0.1.40"
+tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
+dotenvy = "0.15.7"
+anyhow = "1.0.86"
+futures-util = "0.3.30"
+mime_guess = "2.0.4"
+chrono = { version = "0.4.38", features = ["serde"] }
+thiserror = "1.0.61"
+
+[dev-dependencies]
+axum-test = "15.0.0"
+tokio = { version = "1.37.0", features = ["full", "test-util"] }
