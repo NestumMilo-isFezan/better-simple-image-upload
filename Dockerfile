@@ -10,9 +10,9 @@ RUN cargo chef prepare --recipe-path recipe.json
 # Stage 3: Build
 FROM chef AS builder
 COPY --from=planner /app/recipe.json recipe.json
-# Copy migration manifest and stub src so cargo-chef can resolve the path dependency
+# Copy migration files so cargo-chef can resolve the path dependency
 COPY migration/Cargo.toml migration/Cargo.toml
-RUN mkdir -p migration/src && touch migration/src/lib.rs
+COPY migration/src/lib.rs migration/src/lib.rs
 # Build dependencies - this layer is cached as long as Cargo.toml stays the same
 RUN cargo chef cook --release --recipe-path recipe.json
 
