@@ -1,6 +1,5 @@
 # Stage 1: Plan
-FROM rust:1.85-slim AS chef
-RUN cargo install cargo-chef
+FROM lukemathwalker/cargo-chef:latest-rust-1.85 AS chef
 WORKDIR /app
 
 # Stage 2: Prepare
